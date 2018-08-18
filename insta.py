@@ -14,7 +14,6 @@ class InstagramBot:
         self.username = username
         self.password = password
         self.messages_dict = messages_dict
-        #self.posts_cnt = posts_cnt
         self.driver = webdriver.Chrome('chromedriver.exe')
         #self.driver.set_window_size(700, 900)
 
