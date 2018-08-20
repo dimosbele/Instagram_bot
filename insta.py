@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 
+import re
 import datetime
 import time
 import random
@@ -17,7 +18,7 @@ class InstagramBot:
         self.password = password
         self.messages_dict = messages_dict
         self.driver = webdriver.Chrome('chromedriver.exe')
-        #self.driver.set_window_size(700, 900)
+        self.driver.set_window_size(1000, 900)
 
 
     def closeBrowser(self):
@@ -174,8 +175,11 @@ class InstagramBot:
         numeric_details = driver.find_elements_by_class_name("Y8-fY ")
         numeric_details_list = [e.text for e in numeric_details]
         posts = numeric_details_list[0]
+        posts = re.sub("[^0-9]", "", posts)
         followers = numeric_details_list[1]
+        followers = re.sub("[^0-9]", "", followers)
         following = numeric_details_list[2]
+        following = re.sub("[^0-9]", "", following)
 
         # create a dictionary with the details of the user
         user_details = {}
@@ -266,5 +270,5 @@ class InstagramBot:
         with open('results/users.csv', 'a', encoding='utf-8') as file1:
             w = csv.DictWriter(file1, user_details.keys(), lineterminator = '\n')
             #if cnt_follower == 1:
-            w.writeheader()
+            #w.writeheader()
             w.writerow(user_details)
