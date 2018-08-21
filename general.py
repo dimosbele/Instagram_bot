@@ -15,7 +15,7 @@ def update_limits():
     lines = limits_file.read().split(',')
     limits_file.close()
 
-    last_update_line = lines[1].split('=')
+    last_update_line = lines[2].split('=')
     last_update = last_update_line[1]
     print('The post counter was last updated at: ', last_update)
 
@@ -32,6 +32,8 @@ def update_limits():
         # write the updated inforamtion
         limits_file = open("limits.txt", "w")
         limits_file.write("posts_cnt=%s," % 0)
+        limits_file.write("\n")
+        limits_file.write("likes_cnt=%s," % 0)
         limits_file.write("\n")
         limits_file.write("last_update=%s" % now)
         limits_file.close()
@@ -150,3 +152,55 @@ def get_message(language, messages_dict):
         return 1
 
     return message
+
+
+def check_daily_limits(followers):
+    # Consider Instagrams rate limits : 250 posts per day
+    # limit: 225 posts/day
+
+    # read the file with the post_counter that counts the number of posts and likes that we have done per day.
+    # there is also the date of our last post.
+    limits_file = open("limits.txt", "r")
+    lines = limits_file.read().split(',')
+    limits_file.close()
+
+    # the posts counter
+    posts_cnt_line = lines[0].split('=')
+    posts_cnt = posts_cnt_line[1]
+    posts_cnt = int(posts_cnt)
+
+    # the number of likes
+    likes_cnt_line = lines[1].split('=')
+    likes_cnt = likes_cnt_line[1]
+    likes_cnt = int(likes_cnt)
+
+    # the last post/update date
+    last_update_line = lines[2].split('=')
+    last_update = last_update_line[1]
+
+    # increase the post counter by one
+    posts_cnt += 1
+
+    # increase the post counter by 1 or 2
+    if followers<=1000:
+        likes_cnt += 1
+    else:
+        likes_cnt += 2
+
+    print('Remaining posts for today:', 225 - posts_cnt, 'out of', 225)
+    print('Remaining likes for today:', 500 - likes_cnt, 'out of', 500)
+    if (posts_cnt > 225) | (likes_cnt > 500) :
+        print('Sorry, you reached the daily limit of Instagram (225 posts/day & 500 likes/day)!')
+        print('Please, try again after 24 hours!')
+        return False
+
+    # write the new counter value and the new date to the limits.txt
+    limits_file = open("limits.txt", "w")
+    limits_file.write("posts_cnt=%s," % posts_cnt)
+    limits_file.write("\n")
+    limits_file.write("likes_cnt=%s," % likes_cnt)
+    limits_file.write("\n")
+    limits_file.write("last_update=%s" % last_update)
+    limits_file.close()
+
+    return True

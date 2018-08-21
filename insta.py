@@ -14,6 +14,12 @@ import csv
 class InstagramBot:
 
     def __init__(self, username, password, messages_dict):
+        """
+
+        :param username:
+        :param password:
+        :param messages_dict:
+        """
         self.username = username
         self.password = password
         self.messages_dict = messages_dict
@@ -78,10 +84,7 @@ class InstagramBot:
             time.sleep(random.randint(500, 1000) / 1000)
             # every 5 scrolls, it checks if it has been scrolled to the bottom.
             if i%5==0:
-                print('Checking if it scrolled to the bottom')
                 followers_cnt = driver.find_elements_by_class_name('NroHT')
-                #print('pre_followers_cnt = ', pre_followers_cnt)
-                #print('followers_cnt = ', len(followers_cnt))
                 # if the following is True: it can't scroll down any more.
                 if pre_followers_cnt == len(followers_cnt):
                     print('-----Scrolled to the bottom.')
@@ -152,6 +155,38 @@ class InstagramBot:
 
         return False
 
+
+    def like_pictures(self, followers, links):
+        """
+
+        :param followers: number of followers
+        :param links: list with the hrefs of the pictures
+        :return: Nothing
+        """
+        driver = self.driver
+        # Todo: fix the limit to 1000
+        if followers<=170:
+            num_likes = 1
+        else:
+            num_likes = 2
+
+        for link in links[0:num_likes]:
+            #open the page with the most recent picture in the browser
+            # ToDo: delete my picture
+            driver.get(link)
+            #driver.get('https://www.instagram.com/p/BmWawZ6h4Fl/?taken-by=dimosbele')
+            time.sleep(2)
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            try:
+                time.sleep(random.randint(2, 4))
+                like_button = lambda: driver.find_element_by_xpath(
+                    '/html/body/span/section/main/div/div/article/div[2]/section[1]/span[1]/button').click()
+                like_button().click()
+            except Exception as e:
+                time.sleep(2)
+
+
+
     def search_user(self, user):
         """
         Opens the users profile in the browser and finds the most recent picture. Waits for the user to select a language and a message.
@@ -162,8 +197,10 @@ class InstagramBot:
         driver = self.driver
         messages_dict = self.messages_dict
 
+        # Todo: delete my profile
         # open the user profile in the browser
-        driver.get("https://www.instagram.com/" + user['UserName'])
+        #driver.get("https://www.instagram.com/" + user['UserName'])
+        driver.get("https://www.instagram.com/" + 'dimosbele')
         time.sleep(2)
 
         # scrape the users' page
@@ -198,11 +235,22 @@ class InstagramBot:
         links = [elem.get_attribute('href') for elem in links_tags if
                  'taken-by=' in elem.get_attribute('href')]
 
+        # Consider Instagrams rate limits : 250 posts per day
+        # limit: 225 posts/day
+        out_of_limit = check_daily_limits(int(followers))
+
+        # stop if we have reached the daily limits
+        if out_of_limit == False:
+            return False
+
         # if the are available pictures, commend the first
         if len(links)>0:
             last_pic_href = links[0]
             print("---Commenting the first picture of user", user_details['User_Url'])
             print("----Picture URL: ", last_pic_href)
+
+            # like some pictures of the user, the number depends one the number of followers
+            self.like_pictures(int(followers), links)
 
             # open the page with the most recent picture in the browser
             # ToDo: delete my picture
@@ -227,6 +275,8 @@ class InstagramBot:
             user_details['Message'] = message
 
 
+
+            """
             # Consider Instagrams rate limits : 250 posts per day
             # limit: 225 posts/day
 
@@ -258,6 +308,7 @@ class InstagramBot:
             limits_file.write("\n")
             limits_file.write("last_update=%s" % last_update)
             limits_file.close()
+            """
 
             # post the comment to the most recent picture
             result = self.post_comment(message)
@@ -272,3 +323,5 @@ class InstagramBot:
             #if cnt_follower == 1:
             #w.writeheader()
             w.writerow(user_details)
+
+        return True

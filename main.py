@@ -1,10 +1,6 @@
 from insta import *
 from general import *
 
-import csv
-import datetime
-import pandas as pd
-
 # update the post counter
 # check if 24 hours has passed and update the post counter
 update_limits()
@@ -25,12 +21,12 @@ ig.login()
 # read the instagram pages that will be scraped
 pages = read_pages()
 # Todo: Delete this
-#pages = ['dimosbele', 'cocooning_biocosmetics']
+pages = ['dimosbele', 'cocooning_biocosmetics']
 
 # iterate through pages
 # Todo: Delete [0:1]
-#for page in pages[0:1]:
-for page in pages:
+for page in pages[0:1]:
+#for page in pages:
     print("- Scrapping instagram page: ", page)
     # search the page and scrape the followers
     followers = ig.search_page(page)
@@ -40,8 +36,8 @@ for page in pages:
     cnt_follower = 1
     # Todo: Delete [0:3]
     # iterate through followers of this page
-    #for follower in followers[0:3]:
-    for follower in followers:
+    for follower in followers[0:1]:
+    #for follower in followers:
         # extract basic information of the follower: UserName, Name and isFollowing
         user_dict = user_basic_info(follower, page, cnt_follower)
         cnt_follower += 1
@@ -51,7 +47,11 @@ for page in pages:
     for user in users_info_list:
         print("--- Searching for follower: ", user)
         if user['IsFollowing'] == 'Follow':
-            ig.search_user(user)
+            posted = ig.search_user(user)
+            if posted == False:
+                break
+    if posted == False:
+        break
 
 # close the browser
 ig.closeBrowser()
