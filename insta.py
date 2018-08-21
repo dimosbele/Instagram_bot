@@ -76,7 +76,7 @@ class InstagramBot:
         dialog = driver.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[2]')
         # max scroll times
         scrolls = 300
-        # counter to undersand when scrolled to the bottom
+        # counter to understand when scrolled to the bottom
         pre_followers_cnt = 0
         for i in range(scrolls):
             #print('Scroll_id', i)
@@ -85,6 +85,7 @@ class InstagramBot:
             # every 5 scrolls, it checks if it has been scrolled to the bottom.
             if i%5==0:
                 followers_cnt = driver.find_elements_by_class_name('NroHT')
+                #print(len(followers_cnt) , '-' , pre_followers_cnt)
                 # if the following is True: it can't scroll down any more.
                 if pre_followers_cnt == len(followers_cnt):
                     print('-----Scrolled to the bottom.')
@@ -165,7 +166,7 @@ class InstagramBot:
         """
         driver = self.driver
         # Todo: fix the limit to 1000
-        if followers<=170:
+        if followers<=1000:
             num_likes = 1
         else:
             num_likes = 2
@@ -199,8 +200,8 @@ class InstagramBot:
 
         # Todo: delete my profile
         # open the user profile in the browser
-        #driver.get("https://www.instagram.com/" + user['UserName'])
-        driver.get("https://www.instagram.com/" + 'dimosbele')
+        driver.get("https://www.instagram.com/" + user['UserName'])
+        #driver.get("https://www.instagram.com/" + 'dimosbele')
         time.sleep(2)
 
         # scrape the users' page
@@ -273,42 +274,6 @@ class InstagramBot:
             languages = ['English', 'French', 'German']
             user_details['Language'] = languages[language-1]
             user_details['Message'] = message
-
-
-
-            """
-            # Consider Instagrams rate limits : 250 posts per day
-            # limit: 225 posts/day
-
-            # read the file with the post_counter that counts the number of posts that we have done per day.
-            # there is also the date of our last post.
-            limits_file = open("limits.txt", "r")
-            lines = limits_file.read().split(',')
-            limits_file.close()
-            # the posts counter
-            posts_cnt_line = lines[0].split('=')
-            posts_cnt = posts_cnt_line[1]
-            posts_cnt = int(posts_cnt)
-            #the last post/update date
-            last_update_line = lines[1].split('=')
-            last_update = last_update_line[1]
-
-            # increase the post counter by one
-            posts_cnt += 1
-
-            print('Remaining posts for today:', 225-posts_cnt, 'out of' , 225)
-            if posts_cnt >225:
-                print('Sorry, you reached the daily limit of Instagram (225 posts/day)!')
-                print('Please, try again after 24 hours!')
-                return 1
-
-            # write the new counter value and the new date to the limits.txt
-            limits_file = open("limits.txt", "w")
-            limits_file.write("posts_cnt=%s," % posts_cnt)
-            limits_file.write("\n")
-            limits_file.write("last_update=%s" % last_update)
-            limits_file.close()
-            """
 
             # post the comment to the most recent picture
             result = self.post_comment(message)

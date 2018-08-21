@@ -2,3 +2,23 @@ Name,IsFollowing,UserName
 Podenco Eivissa Swim,Follow,podencoeivissaofficial
 Ilias Basakiotis,Follow,ilias_basakiotis
 elena.polycarpou,Follow,makeupart_byelena
+Name,UserName,IsFollowing
+Dr. Marco Bartolucci,dr.marcobartolucci,Follow
+Name,UserName,IsFollowing
+Dr. Marco Bartolucci,dr.marcobartolucci,Follow
+IsFollowing,UserName,Name
+Follow,dr.marcobartolucci,Dr. Marco Bartolucci
+Name,IsFollowing,UserName
+Dr. Marco Bartolucci,Follow,dr.marcobartolucci
+UserName,Name,IsFollowing
+dr.marcobartolucci,Dr. Marco Bartolucci,Follow
+UserName,IsFollowing,Name
+dr.marcobartolucci,Follow,Dr. Marco Bartolucci
+UserName,Name,IsFollowing
+dr.marcobartolucci,Dr. Marco Bartolucci,Follow
+Name,IsFollowing,UserName
+Dr. Marco Bartolucci,Follow,dr.marcobartolucci
+IsFollowing,UserName,Name
+Follow,dr.marcobartolucci,Dr. Marco Bartolucci
+UserName,IsFollowing,Name
+dr.marcobartolucci,Follow,Dr. Marco Bartolucci

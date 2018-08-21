@@ -106,7 +106,7 @@ def user_basic_info(follower, page, cnt_follower):
 
 def get_message(language, messages_dict):
     """
-    Asks the user to select one of the available messages.
+    Asks the user to select one of the available messages. Or type a new message.
     :param language: the language that was selected: 1, 2 or 3
     :param messages_dict: dictionary with the available messages in the 3 languages
     :return: the message that was finally selected.
@@ -117,12 +117,17 @@ def get_message(language, messages_dict):
         for msg in messages_dict['eng']:
             print(str(i) + ') ' + msg)
             i += 1
-        print(str(len(messages_dict['eng']) + 1) + ') ' + 'No message')
-        message_id = int(input("Please, select one of the available messages."))
-
-        if message_id <= len(messages_dict['eng']):
-            message = messages_dict['eng'][message_id - 1]
-        else:
+        print(str(len(messages_dict['eng']) + 1) + ') ' + 'Type your own message.')
+        print(str(len(messages_dict['eng']) + 2) + ') ' + 'No message')
+        try:
+            message_id = int(input("Please, select one of the available messages: \n"))
+            if message_id <= len(messages_dict['eng']):
+                message = messages_dict['eng'][message_id - 1]
+            elif message_id == (len(messages_dict['eng'])+1):
+                message = input("Please, type your message: ")
+            else:
+                return 1
+        except:
             return 1
     elif language == 2:
         print('Available French messages:')
@@ -130,11 +135,17 @@ def get_message(language, messages_dict):
         for msg in messages_dict['fr']:
             print(str(i) + ') ' + msg)
             i += 1
-        print(str(len(messages_dict['fr']) + 1) + ') ' + 'No message')
-        message_id = int(input("Please, select one of the available messages."))
-        if message_id <= len(messages_dict['fr']):
-            message = messages_dict['fr'][message_id - 1]
-        else:
+        print(str(len(messages_dict['fr']) + 1) + ') ' + 'Type your own message.')
+        print(str(len(messages_dict['fr']) + 2) + ') ' + 'No message')
+        try:
+            message_id = int(input("Please, select one of the available messages: \n"))
+            if message_id <= len(messages_dict['fr']):
+                message = messages_dict['fr'][message_id - 1]
+            elif message_id == (len(messages_dict['fr']) + 1):
+                message = input("Please, type your message: ")
+            else:
+                return 1
+        except:
             return 1
     elif language == 3:
         print('Available German messages:')
@@ -142,11 +153,17 @@ def get_message(language, messages_dict):
         for msg in messages_dict['ger']:
             print(str(i) + ') ' + msg)
             i += 1
-        print(str(len(messages_dict['ger']) + 1) + ') ' + 'No message')
-        message_id = int(input("Please, select one of the available messages."))
-        if message_id <= len(messages_dict['ger']):
-            message = messages_dict['ger'][message_id - 1]
-        else:
+        print(str(len(messages_dict['ger']) + 1) + ') ' + 'Type your own message.')
+        print(str(len(messages_dict['ger']) + 2) + ') ' + 'No message')
+        try:
+            message_id = int(input("Please, select one of the available messages: \n"))
+            if message_id <= len(messages_dict['ger']):
+                message = messages_dict['ger'][message_id - 1]
+            elif message_id == (len(messages_dict['ger']) + 1):
+                message = input("Please, type your message: ")
+            else:
+                return 1
+        except:
             return 1
     elif language not in [1,2,3]:
         return 1
@@ -204,3 +221,26 @@ def check_daily_limits(followers):
     limits_file.close()
 
     return True
+
+
+def read_file_to_set(filepath):
+    """
+    Write a file to a set
+    :param filepath: path of the file
+    :return: a set with the data from the file
+    """
+    with open(filepath, 'r') as f:
+        lines = f.read().splitlines()
+
+    return lines
+
+def append_set_to_file(filepath, data):
+    """
+    Append a set to a file
+    :param filepath: path of the file
+    :param data: the set to be appended
+    """
+
+    with open(filepath, 'a') as f:
+        for line in data:
+            f.write("%s\n" % line)
