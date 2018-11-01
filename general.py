@@ -83,7 +83,7 @@ def user_basic_info(follower, page, cnt_follower):
     """
     # extract basic information of the follower: UserName, Name and isFollowing
     elmnts = follower.split('\n')
-    # print(elmnts)
+    print(elmnts)
     user_dict = {}
     user_dict['UserName'] = elmnts[0]
     # some followers dont have Name. They have only useName and isFollowing.

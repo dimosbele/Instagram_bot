@@ -21,15 +21,15 @@ ig.login()
 # read the instagram pages that will be scraped
 pages = read_pages()
 # Todo: Delete this
-#pages = ['dimosbele', 'cocooning_biocosmetics']
+pages = ['dimosbele', 'cocooning_biocosmetics']
 
 # read the seller links that have been scraped in the past
 already_scraped_users = read_file_to_set('backup/scraped_insta_users.txt')
 
 # iterate through pages
 # Todo: Delete [0:1]
-#for page in pages[0:1]:
-for page in pages:
+for page in pages[0:1]:
+#for page in pages:
     print("- Scrapping instagram page: ", page)
     # search the page and scrape the followers
     followers = ig.search_page(page)
@@ -39,8 +39,8 @@ for page in pages:
     cnt_follower = 1
     # Todo: Delete [0:3]
     # iterate through followers of this page
-    #for follower in followers[0:4]:
-    for follower in followers:
+    for follower in followers[0:3]:
+    #for follower in followers:
         # extract basic information of the follower: UserName, Name and isFollowing
         user_dict = user_basic_info(follower, page, cnt_follower)
         cnt_follower += 1

@@ -40,12 +40,13 @@ class InstagramBot:
         :return: Nothing
         """
         driver = self.driver
-        driver.get("https://www.instagram.com/")
+        driver.get("https://www.instagram.com/accounts/login/")
         time.sleep(2)
-        login_button = driver.find_element_by_xpath("//a[@href='/accounts/login/']")
-        login_button.click()
-        time.sleep(2)
+        #login_button = driver.find_element_by_xpath("//a[@href='/accounts/login/']")
+        #login_button.click()
+        #time.sleep(2)
         user_name_elem = driver.find_element_by_xpath("//input[@name='username']")
+        print(user_name_elem)
         user_name_elem.clear()
         user_name_elem.send_keys(self.username)
         passworword_elem = driver.find_element_by_xpath("//input[@name='password']")
@@ -73,7 +74,8 @@ class InstagramBot:
         time.sleep(5)
 
         # Scroll down followers page
-        dialog = driver.find_element_by_xpath('/html/body/div[3]/div/div[2]/div/div[2]')
+        #/html/body/div[3]/div/div/div[2]
+        dialog = driver.find_element_by_xpath('/html/body/div[3]/div/div/div[2]')
         # max scroll times
         scrolls = 300
         # counter to understand when scrolled to the bottom
@@ -84,8 +86,12 @@ class InstagramBot:
             time.sleep(random.randint(500, 1000) / 1000)
             # every 5 scrolls, it checks if it has been scrolled to the bottom.
             if i%5==0:
-                followers_cnt = driver.find_elements_by_class_name('NroHT')
-                #print(len(followers_cnt) , '-' , pre_followers_cnt)
+                print(driver.page_source)
+                #followers_cnt = driver.find_elements_by_class_name('wo9IH')
+                # PZuss
+                followers_div = driver.find_element_by_class_name('PZuss')
+                followers_cnt = followers_div.find_elements_by_tag_name('li')
+                print(len(followers_cnt) , '-' , pre_followers_cnt)
                 # if the following is True: it can't scroll down any more.
                 if pre_followers_cnt == len(followers_cnt):
                     print('-----Scrolled to the bottom.')
@@ -94,7 +100,11 @@ class InstagramBot:
 
         # Finally, scrape the followers
         print('--- Scrapping followers pop up window.')
-        followers_elems = driver.find_elements_by_class_name('NroHT')
+
+        #followers_elems = driver.find_elements_by_class_name('wo9IH')
+        followers_div = driver.find_element_by_class_name('PZuss')
+        followers_elems = followers_div.find_elements_by_tag_name('li')
+        #print('followers_elems = ', followers_elems)
 
         # return a list with all the followers information
         return [e.text for e in followers_elems]
@@ -200,8 +210,8 @@ class InstagramBot:
 
         # Todo: delete my profile
         # open the user profile in the browser
-        driver.get("https://www.instagram.com/" + user['UserName'])
-        #driver.get("https://www.instagram.com/" + 'dimosbele')
+        #driver.get("https://www.instagram.com/" + user['UserName'])
+        driver.get("https://www.instagram.com/" + 'dimosbele')
         time.sleep(2)
 
         # scrape the users' page
