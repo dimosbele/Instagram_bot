@@ -6,8 +6,8 @@ from general import *
 update_limits()
 
 # username and password
-username = "cherry.green.ch"
-password = "Cherry_FB_2020"
+username = "xxxxxxx"
+password = "yyyyyyy"
 
 # read the available messages in all lagnuages and create a dictionary
 messages_dict = read_messages()
