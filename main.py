@@ -21,7 +21,7 @@ ig.login()
 # read the instagram pages that will be scraped
 pages = read_pages()
 # Todo: Delete this
-pages = ['dimosbele', 'cocooning_biocosmetics']
+pages = ['a_user_name']
 
 # read the seller links that have been scraped in the past
 already_scraped_users = read_file_to_set('backup/scraped_insta_users.txt')
