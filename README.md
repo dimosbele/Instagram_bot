@@ -12,3 +12,6 @@ Instagram bot with selenium
 7) Finds his/her most recent picture. 
 8) Asks the user to select a language and a message.
 9) Posts a comment to the most recent picture.
+
+Dimosthenis Beleveslis <br>
+dimbele4@gmail.com
