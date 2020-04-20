@@ -185,7 +185,6 @@ class InstagramBot:
             #open the page with the most recent picture in the browser
             # ToDo: delete my picture
             driver.get(link)
-            #driver.get('https://www.instagram.com/p/BmWawZ6h4Fl/?taken-by=dimosbele')
             time.sleep(2)
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             try:
@@ -210,8 +209,7 @@ class InstagramBot:
 
         # Todo: delete my profile
         # open the user profile in the browser
-        #driver.get("https://www.instagram.com/" + user['UserName'])
-        driver.get("https://www.instagram.com/" + 'dimosbele')
+        driver.get("https://www.instagram.com/" + user['UserName'])
         time.sleep(2)
 
         # scrape the users' page
@@ -266,7 +264,6 @@ class InstagramBot:
             # open the page with the most recent picture in the browser
             # ToDo: delete my picture
             driver.get(last_pic_href)
-            #driver.get('https://www.instagram.com/p/BmWawZ6h4Fl/?taken-by=dimosbele')
             time.sleep(2)
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
